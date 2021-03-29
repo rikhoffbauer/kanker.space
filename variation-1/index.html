@@ -24,7 +24,7 @@
         #wrapper {
             padding: 0px;
             margin: 0px;
-            position: fixed;
+            position : fixed;
             left: 0;
             top: 0;
             right: 0;
@@ -64,9 +64,8 @@
             filter: contrast(200%)
         }
 
-        span {
-            transition: all 150ms
-        }
+        span
+        {transition: all 150ms}
 
     </style>
 </head>
@@ -104,19 +103,15 @@
         document.getElementById("wrapper").appendChild($text);
         document.getElementById("wrapper").appendChild($canvas);
     }
-
     let waiting = false;
-
     function wait(duration, ...args) {
         return new Promise(resolve => setTimeout(resolve, duration, ...args));
     }
-
     const text_variations = ["knkar.space", "KaNkEr.space", "KKSPACE", "kEnkerrrr", "Kan Kah Spz", 'kk space', "shitspace"]
-
     async function render({
-                              width = window.innerWidth,
-                              height = window.innerHeight
-                          } = {}, time = Date.now() / 1000) {
+                        width = window.innerWidth,
+                        height = window.innerHeight
+                    } = {}, time = Date.now()/ 1000) {
         if (waiting && Date.now() - waiting < 2000) {
             return;
         } else {
@@ -140,19 +135,19 @@
             ctx.beginPath();
             ctx.strokeStyle = '#' + Math.floor(strokeRandom * 2 ** 16).toString(16);
             ctx.moveTo(i, 0);
-            ctx.rotate(strokeRandom * 90 * Math.PI / 180);
-            ctx.translate(-$canvas.width / 10, -$canvas.height / 10);
+            ctx.rotate(strokeRandom * 90 * Math.PI/180);
+            ctx.translate(-$canvas.width / 10,-$canvas.height / 10);
             ctx.lineTo(i, height);
             ctx.stroke();
 
             ctx.beginPath();
             ctx.arc(i * Math.random() * 200, i * Math.random() * 200, Math.random() * 500, Math.random() * 1000, Math.random() * 4000);
             ctx.moveTo(i, 0);
-            ctx.translate(-$canvas.width / 10, -$canvas.height / 10);
+            ctx.translate(-$canvas.width / 10,-$canvas.height / 10);
             ctx.strokeStyle = '#' + Math.floor(Math.random() * 2 ** 16).toString(16);
             ctx.stroke();
 
-            const text = text_variations[Math.floor(Math.random() * text_variations.length - 1) + 1]
+            const text = text_variations[Math.floor(Math.random() * text_variations.length -1) + 1]
             $text.style.transform = `rotateZ(${strokeRandom * 180}deg) `
             $text.style.color = `hsl(${Math.round(Math.random() * 360) - 180}deg, ${Math.min(50, Math.random() * 100)}%, 70%)`
             $text.style.fontSize = `${Math.random() * 46 + 46}px`;
@@ -166,9 +161,9 @@
                 // `blur(2px)`,
                 `brightness(150%)`,
             ].filter(Boolean).join(" ");
-            $canvas.style.filter = filterCssRules;
+            $canvas.style.filter= filterCssRules;
 
-            if (i * 1000 - Math.PI * 1000 === 0) {
+            if (i * 1000 - Math.PI * 1000 === 0 ) {
                 $text.innerText = "hold on wait a second\n\n" + $text.innerText;
                 waiting = Date.now();
                 await wait(2000);

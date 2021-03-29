@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExtraIconsSettingsProject">
+    <option name="overrideIDESettings" value="true" />
+    <option name="ignoredPattern" value="" />
+    <option name="additionalUIScale" value="1.0" />
+  </component>
+  <component name="NiddlerSettings">
+    <option name="automaticallyReconnect" value="false" />
+    <option name="connectUsingDebugger" value="false" />
+    <option name="reuseSession" value="false" />
+  </component>
+  <component name="NxDevToolsSettings">
+    <node-interpreter value="$USER_HOME$/.asdf/installs/nodejs/15.10.0/bin/node" />
+    <nx-package value="$USER_HOME$/.asdf/installs/nodejs/15.9.0/pnpm-global/4/node_modules/.pnpm/nx@11.4.0/node_modules/nx" />
+    <nx.json value="" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="16" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="SerialMonitorSettings" BaudRate="9600" LineEndingsIndex="0" ShowStatusWidget="true" />
+  <component name="SettingsState">
+    <option name="commitLimit" value="1000" />
+    <option name="historyLimit" value="1000" />
+    <option name="threads" value="32" />
+  </component>
+  <component name="VagrantProjectSettings">
+    <option name="instanceFolder" value="" />
+    <option name="provider" value="" />
+  </component>
+</project>

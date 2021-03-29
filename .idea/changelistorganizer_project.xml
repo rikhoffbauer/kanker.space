@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangelistOrganizerProjectSettings">
+    <option name="changelistOrganizerItems">
+      <list>
+        <ChangelistOrganizerItem>
+          <option name="changeListName" value="src" />
+          <option name="enabled" value="true" />
+          <option name="filePattern" value="src/**/*" />
+        </ChangelistOrganizerItem>
+        <ChangelistOrganizerItem>
+          <option name="changeListName" value="test" />
+          <option name="enabled" value="true" />
+          <option name="filePattern" value="test/**/*" />
+        </ChangelistOrganizerItem>
+        <ChangelistOrganizerItem>
+          <option name="changeListName" value="docs" />
+          <option name="enabled" value="true" />
+          <option name="filePattern" value="docs/**/*" />
+        </ChangelistOrganizerItem>
+        <ChangelistOrganizerItem>
+          <option name="changeListName" value=".yarn" />
+          <option name="enabled" value="true" />
+          <option name="filePattern" value=".yarn/**/*" />
+        </ChangelistOrganizerItem>
+      </list>
+    </option>
+  </component>
+</project>
