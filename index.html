@@ -1,187 +1,88 @@
 <!doctype html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>KaNkEr.sPacE</title>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>kanker.space</title>
     <style>
-        :root {
-            --palette-black: #272727;
-            --palette-white: #f7f7f7;
-
-            --background-color: var(--palette-black);
+        * {
+            box-sizing: border-box;
         }
 
         html, body {
-            background-color: black;
-            padding: 0px;
-            margin: 0px;
-            overflow: hidden;
+            paddding: 0;
+            margin: 0;
         }
 
-        #wrapper {
-            padding: 0px;
-            margin: 0px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-
-            animation: wrapper-animation 100s infinite;
-            animation-delay: 0s;
-            animation-direction: normal;
-            animation-fill-mode: forwards;
+        body {
+            padding: 10em;
+            font-size: 72px;
+            display: flex;
+            flex-director: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            transition: all 500ms ease-in-out;
         }
 
-        @keyframes wrapper-animation {
-            0% {
-                transform: none;
-            }
+        main {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
 
-            25% {
-                transform: scaleX(4) skewY(45deg);
-                filter: chroma(red);
-            }
-
-            50% {
-                transform: scaleX(2) rotate3d(12, 402, 21, 23deg);
-            }
-
-            75% {
-                transform: rotate3d(100, 40, 41, 65deg);
-            }
-
-            100% {
-                transform: none;
-            }
         }
 
-        canvas {
-            border: var(--background-color) solid 1px;
-            filter: contrast(200%)
+        main span {
+            transition: 500ms linear;
+            filter: invert();
+            transform: skew(30deg);
+            text-shadow: red 10px 10px;
         }
-
-        span {
-            transition: all 150ms
-        }
-
     </style>
 </head>
 <body>
-<!--<script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>-->
-<!--<script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>-->
-<div id="wrapper"></div>
-<script type="module">
-    let $canvas;
-    let $text;
+<main>
+    <span>k</span>
+    <span>a</span>
+    <span>n</span>
+    <span>k</span>
+    <span>e</span>
+    <span>r</span>
+    <span>.</span>
+    <span>s</span>
+    <span>p</span>
+    <span>a</span>
+    <span>c</span>
+    <span>e</span>
+</main>
 
-    function initializeDOM() {
-        if ($canvas) {
-            throw new Error(`Cannot initialize the DOM twice.`);
-        }
+<script type='text/javascript'>
+    const $spans = Array.from(document.querySelectorAll('span'));
+    console.log($spans);
+    const FPS = 1;
 
-        $text = document.createElement("span");
-        $text.innerText = "kanker space"
+    setInterval(render, 1000 / FPS);
 
-        $text.style.position = "fixed";
-        $text.style.left = "0";
-        $text.style.right = "0";
-        $text.style.bottom = "0";
-        $text.style.top = "0";
-        $text.style.display = "flex";
-        $text.style.justifyContent = "center";
-        $text.style.alignItems = "center";
-        $text.style.zIndex = "1";
-        $text.style.fontSize = "46";
-        // $text.style.filter = "blur(3px)"
-
-        $text.style.textAlign = "center";
-        $text.style.color = "white";
-        $canvas = document.createElement("canvas");
-        document.getElementById("wrapper").appendChild($text);
-        document.getElementById("wrapper").appendChild($canvas);
+    let lastUpdate;
+    function render() {
+        $spans.forEach(($span, i) => {
+            const mul = Math.sin(i * Date.now()) * (Math.random() * 2);
+            const fontSize = Math.min(512, (Math.max(46, 72 * mul)));
+            $span.style.fontSize = `${fontSize}px`;
+            const hue = 360 * Math.random();
+            const color = `hsl(${hue}deg, 50%, 50%)`;
+            // document.body.style.background = color;
+            document.body.style.background = `linear-gradient(${hue}deg, #${hue.toString('16').slice(-6)}, #${(Math.random() * hue).toString('16').slice(-6)})`;
+            // document.body.style.background = `linear-gradient(to bottom, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), linear-gradient(to right, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);`;
+            document.body.style.transform = `skew(${hue / 12}deg) rotate(${hue}deg)`;
+            lastUpdate = Date.now();
+        });
     }
-
-    let waiting = false;
-
-    function wait(duration, ...args) {
-        return new Promise(resolve => setTimeout(resolve, duration, ...args));
-    }
-
-    const text_variations = ["knkar.space", "KaNkEr.space", "KKSPACE", "kEnkerrrr", "Kan Kah Spz", 'kk space', "shitspace"]
-
-    async function render({
-                              width = window.innerWidth,
-                              height = window.innerHeight
-                          } = {}, time = Date.now() / 1000) {
-        if (waiting && Date.now() - waiting < 2000) {
-            return;
-        } else {
-            waiting = false;
-        }
-        Object.assign($canvas, {width, height});
-        const ctx = $canvas.getContext('2d');
-
-        ctx.fillStyle = `rgb(0, 0, 0)`;
-        ctx.fillRect(0, 0, width, height);
-        ctx.lineWidth = 2;
-
-        for (let i = 0; i < width / 2; i++) {
-            if (waiting && Date.now() - waiting < 2000) {
-                break;
-            } else {
-                waiting = false;
-            }
-            const strokeRandom = Math.random();
-
-            ctx.beginPath();
-            ctx.strokeStyle = '#' + Math.floor(strokeRandom * 2 ** 16).toString(16);
-            ctx.moveTo(i, 0);
-            ctx.rotate(strokeRandom * 90 * Math.PI / 180);
-            ctx.translate(-$canvas.width / 10, -$canvas.height / 10);
-            ctx.lineTo(i, height);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.arc(i * Math.random() * 200, i * Math.random() * 200, Math.random() * 500, Math.random() * 1000, Math.random() * 4000);
-            ctx.moveTo(i, 0);
-            ctx.translate(-$canvas.width / 10, -$canvas.height / 10);
-            ctx.strokeStyle = '#' + Math.floor(Math.random() * 2 ** 16).toString(16);
-            ctx.stroke();
-
-            const text = text_variations[Math.floor(Math.random() * text_variations.length - 1) + 1]
-            $text.style.transform = `rotateZ(${strokeRandom * 180}deg) `
-            $text.style.color = `hsl(${Math.round(Math.random() * 360) - 180}deg, ${Math.min(50, Math.random() * 100)}%, 70%)`
-            $text.style.fontSize = `${Math.random() * 46 + 46}px`;
-            if (Math.round(i / 1000) % 247 === 0) {
-                $text.innerText = text;
-            }
-            const grayscale = Math.round(time + 40) % 3 && Math.round(time) % 3 === 0;
-
-            const filterCssRules = [
-                grayscale && `grayscale(1)`,
-                // `blur(2px)`,
-                `brightness(150%)`,
-            ].filter(Boolean).join(" ");
-            $canvas.style.filter = filterCssRules;
-
-            if (i * 1000 - Math.PI * 1000 === 0) {
-                $text.innerText = "hold on wait a second\n\n" + $text.innerText;
-                waiting = Date.now();
-                await wait(2000);
-                waiting = false;
-            } else {
-                waiting = false;
-            }
-        }
-    }
-
-    initializeDOM();
-    setInterval(() => requestAnimationFrame(time => render({}, time)), 250);
-    // setInterval(render, 30 /  1000);
 </script>
 </body>
 </html>
