@@ -7,6 +7,11 @@
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <title>kanker.space</title>
     <style>
+        :root {
+            --text-shadow-color: red;
+            --text-color: blue;
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -14,17 +19,14 @@
         html, body {
             paddding: 0;
             margin: 0;
+            height: 100%;
         }
 
         body {
-            padding: 10em;
             font-size: 72px;
-            display: flex;
-            flex-director: row;
-            justify-content: space-between;
-            align-items: center;
             width: 100%;
             transition: all 500ms ease-in-out;
+            font-family: monospace;
         }
 
         main {
@@ -34,14 +36,12 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-
         }
 
         main span {
-            transition: 500ms linear;
-            filter: invert();
-            transform: skew(30deg);
-            text-shadow: red 10px 10px;
+            transition: all 500ms linear;
+            color: var(--text-color);
+            text-shadow: var(--text-shadow-color) 10px 10px;
         }
     </style>
 </head>
@@ -68,19 +68,21 @@
 
     setInterval(render, 1000 / FPS);
 
-    let lastUpdate;
     function render() {
+        const hue = 360 * Math.random();
+        const hue2 = 360 * Math.random();
+        const hue3 = 360 * Math.random();
+
+        document.documentElement.style.setProperty("--text-shadow-color", `#${(hue2).toString(16).slice(-6)}`);
+        document.documentElement.style.setProperty("--text-color", `#${(hue3).toString(16).slice(-6)}`);
+
+        document.body.style.background = `linear-gradient(${hue}deg, #${hue.toString(16).slice(-6)}, #${(Math.random() * hue).toString(16).slice(-6)})`;
+        document.body.style.transform = `skew(${hue / 12}deg) rotate(${hue2}deg)`;
+
         $spans.forEach(($span, i) => {
-            const mul = Math.sin(i * Date.now()) * (Math.random() * 2);
-            const fontSize = Math.min(512, (Math.max(46, 72 * mul)));
-            $span.style.fontSize = `${fontSize}px`;
-            const hue = 360 * Math.random();
-            const color = `hsl(${hue}deg, 50%, 50%)`;
-            // document.body.style.background = color;
-            document.body.style.background = `linear-gradient(${hue}deg, #${hue.toString('16').slice(-6)}, #${(Math.random() * hue).toString('16').slice(-6)})`;
-            // document.body.style.background = `linear-gradient(to bottom, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), linear-gradient(to right, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);`;
-            document.body.style.transform = `skew(${hue / 12}deg) rotate(${hue}deg)`;
-            lastUpdate = Date.now();
+            const mul = Math.random();
+            const fontSize = (Math.min(72, 100 * mul)) / 10;
+            $span.style.fontSize = `${fontSize}rem`;
         });
     }
 </script>
