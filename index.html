@@ -10,6 +10,14 @@
         :root {
             --text-shadow-color: red;
             --text-color: blue;
+            --skew-deg: 0deg;
+            --rotation-deg: 0deg;
+            --font-size: 72px;
+            --gradient-rotation: 0deg;
+            --gradient-from-color: #ff00ee;
+            --gradient-to-color: #ffff00;
+            --text-shadow-offset-x: 10px;
+            --text-shadow-offset-y: 10px;
         }
 
         * {
@@ -27,6 +35,8 @@
             width: 100%;
             transition: all 500ms ease-in-out;
             font-family: monospace;
+            transform: skew(var(--skew-deg)) rotate(var(--rotation-deg));
+            background: linear-gradient(var(--gradient-rotation), var(--gradient-from-color), var(--gradient-to-color));
         }
 
         main {
@@ -41,7 +51,8 @@
         main span {
             transition: all 500ms linear;
             color: var(--text-color);
-            text-shadow: var(--text-shadow-color) 10px 10px;
+            text-shadow: var(--text-shadow-color) var(--text-shadow-offset-x) var(--text-shadow-offset-y);
+            font-size: var(--font-size);
         }
     </style>
 </head>
@@ -62,29 +73,39 @@
 </main>
 
 <script type='text/javascript'>
-    const $spans = Array.from(document.querySelectorAll('span'));
-    console.log($spans);
-    const FPS = 1;
+    (() => {
+        const COLOR_MAX_VALUE = parseInt("ffffff", 16);
+        const $spans = Array.from(document.querySelectorAll('span'));
+        const FPS = 1;
 
-    setInterval(render, 1000 / FPS);
+        setInterval(render, 1000 / FPS);
 
-    function render() {
-        const hue = 360 * Math.random();
-        const hue2 = 360 * Math.random();
-        const hue3 = 360 * Math.random();
+        function render() {
+            document.documentElement.style.setProperty("--text-shadow-color", randomHexColor());
+            document.documentElement.style.setProperty("--text-shadow-offset-x", `${randomInt(3, 30)}px`);
+            document.documentElement.style.setProperty("--text-shadow-offset-y", `${randomInt(3, 30)}px`);
+            document.documentElement.style.setProperty("--text-color", randomHexColor());
+            document.documentElement.style.setProperty("--skew-deg", `${randomRotationInDegrees() / 8}deg`);
+            document.documentElement.style.setProperty("--rotation-deg", `${randomRotationInDegrees()}deg`);
+            document.documentElement.style.setProperty("--gradient-rotation", `${randomRotationInDegrees()}deg`);
+            document.documentElement.style.setProperty("--gradient-from-color", randomHexColor());
+            document.documentElement.style.setProperty("--gradient-to-color", randomHexColor());
 
-        document.documentElement.style.setProperty("--text-shadow-color", `#${(hue2).toString(16).slice(-6)}`);
-        document.documentElement.style.setProperty("--text-color", `#${(hue3).toString(16).slice(-6)}`);
+            $spans.forEach(($span) => $span.style.setProperty("--font-size", `${randomInt(46, 96)}px`));
+        }
 
-        document.body.style.background = `linear-gradient(${hue}deg, #${hue.toString(16).slice(-6)}, #${(Math.random() * hue).toString(16).slice(-6)})`;
-        document.body.style.transform = `skew(${hue / 12}deg) rotate(${hue2}deg)`;
+        function randomRotationInDegrees() {
+            return randomInt(0, 360);
+        }
 
-        $spans.forEach(($span, i) => {
-            const mul = Math.random();
-            const fontSize = (Math.min(72, 100 * mul)) / 10;
-            $span.style.fontSize = `${fontSize}rem`;
-        });
-    }
+        function randomHexColor() {
+            return `#${randomInt(0, COLOR_MAX_VALUE).toString(16).padStart(6,"0")}`;
+        }
+
+        function randomInt(min = 0, max = 1) {
+            return Math.round((Math.random() * max) + min);
+        }
+    })();
 </script>
 </body>
 </html>
